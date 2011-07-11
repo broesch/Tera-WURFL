@@ -20,7 +20,7 @@
 class TeraWurflDatabase_MongoDB extends TeraWurflDatabase {
 	/**
 	 * MongoDB connection options
-	 * @link http://us.php.net/manual/en/mongo.construct.php 
+	 * @link http://us.php.net/manual/en/mongo.construct.php
 	 * @var array
 	 */
 	protected static $CONNECTION_OPTIONS = array(
@@ -28,7 +28,7 @@ class TeraWurflDatabase_MongoDB extends TeraWurflDatabase {
 //		"timeout" => 500,
 //		"replicaSet" => true,
 	);
-	
+
 	/**
 	 * @var array
 	 */
@@ -38,7 +38,7 @@ class TeraWurflDatabase_MongoDB extends TeraWurflDatabase {
 	 * @var boolean
 	 */
 	public $db_implements_ris = true;
-	
+
 	/**
 	 * @var boolean
 	 */
@@ -69,27 +69,27 @@ class TeraWurflDatabase_MongoDB extends TeraWurflDatabase {
 	 * @var MongoDB
 	 */
 	protected $dbcon;
-	
+
 	/**
 	 * @var string
 	 */
 	protected static $MERGE;
-	
+
 	/**
 	 * @var MongoCollection
 	 */
 	protected $mergecoll;
-	
+
 	/**
 	 * @var int
 	 */
 	protected static $PREALLOC_SIZE = 31457280;
-	
+
 	public function __construct(){
 		parent::__construct();
 		self::$MERGE = TeraWurflConfig::$TABLE_PREFIX.'Merge';
 	}
-	
+
 	// Device Table Functions (device, hybrid, patch) --------------------------
 
 
@@ -160,7 +160,7 @@ class TeraWurflDatabase_MongoDB extends TeraWurflDatabase {
 	 * @param UserAgentMatcher $matcher
 	 * @return string A TW Device ID
 	 */
-	public function getDeviceFromUA_RIS($userAgent, $tolerance, UserAgentMatcher $matcher) {
+	public function getDeviceFromUA_RIS($userAgent, $tolerance, UserAgentMatcher &$matcher) {
 
 		$toexec = 'function(ua, tolerance, matcher) { return performRis(ua, tolerance, matcher) }';
 		$args   = array(utf8_encode($userAgent), $tolerance, $matcher->tableSuffix());
@@ -251,7 +251,7 @@ class TeraWurflDatabase_MongoDB extends TeraWurflDatabase {
 		$this->mergecoll->ensureIndex(array('match' => 1), array("unique"=>false,"dropDups"=>false,"background"=>true,"safe"=>false));
 		return true;
 	}
-	
+
 	public function createSettingsTable(){
 		$name = TeraWurflConfig::$TABLE_PREFIX.'Settings';
 		if($this->collectionExists($name)){
@@ -461,7 +461,7 @@ EOL;
 		$this->connected = true;
 		return true;
 	}
-	
+
 	public function updateSetting($key,$value){
 		$collection = $this->dbcon->selectCollection(TeraWurflConfig::$TABLE_PREFIX.'Settings');
 		$collection->save(array('_id'=>$key,'value'=>$value));
