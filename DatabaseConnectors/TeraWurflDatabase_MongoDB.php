@@ -626,7 +626,7 @@ EOL;
 
 
 	// LD == Levesthein Distance
-	public function getDeviceFromUA_LD($userAgent, $tolerance, UserAgentMatcher $matcher) {
+	public function getDeviceFromUA_LD($userAgent, $tolerance, UserAgentMatcher &$matcher) {
 		throw new Exception("Error: this function (LD) is not yet implemented in MongoDB");
 	}
 
